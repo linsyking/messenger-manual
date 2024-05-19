@@ -1,4 +1,4 @@
-#import "@preview/fletcher:0.4.4" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.4.5" as fletcher: diagram, node, edge
 
 #pagebreak()
 = Transitions

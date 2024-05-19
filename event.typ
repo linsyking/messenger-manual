@@ -1,4 +1,3 @@
-
 #pagebreak()
 = Events <events>
 

@@ -1,4 +1,5 @@
-#import "@preview/fletcher:0.4.4" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.4.5" as fletcher: diagram, node, edge
+#import fletcher.shapes: hexagon
 
 = Introduction
 
@@ -50,11 +51,49 @@ There are several modules (subprojects) within the Messenger project. All the de
 
 == Messenger Model
 
-The concept of the Messenger model is summarized in the following graph:
+The concept of the Messenger model is summarized in the following diagram:
 
-#figure(image("images/concept.png"), caption: [
-  Messenger Model
-])
+#align(center)[
+  #diagram(
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+    for x in (1, 2) {
+    node((x, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
+    node((x+0.5, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
+    node((x+0.5, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
+    node((x, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
+    node([Layer], enclose: ((x, 0), (x+0.5, 1)), corner-radius: 5pt, fill: teal.lighten(80%), stroke: 1pt + teal.darken(20%))
+    edge((x+0.5, 0), (x+0.5, 1), "->", stroke: 1pt + yellow.darken(20%))
+    edge((x, 0), (x+0.5, 0), "->", stroke: 1pt + yellow.darken(20%))
+    edge((x, 1), (x, 0), "->", stroke: 1pt + yellow.darken(20%))
+    edge((x, 1), (x+0.5, 1), "->", stroke: 1pt + yellow.darken(20%))
+    },
+    node(enclose: ((0.5,-1), (3,2)), corner-radius: 5pt, stroke: 1pt + blue, align(left + top, [Scene]), name:<scene>),
+    node((1, 5), [`WorldEvent`], corner-radius: 5pt,fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<world>),
+    node((0.4, 4), [`GlobalData`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<gd>),
+    node((1.2, 4), [`UserEvent`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<user>),
+    edge(<gd>, <scene>, "->"),
+    edge(<user>, <scene>, "->"),
+    edge(<world>, <user>, "->", label: "Filter"),
+    node((2, 4), [`GlobalData`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<ngd>),
+    node((2.8, 4), [`SceneOutputMsg`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<som>),
+    node((2.8, 6), [`SOMHandler`], fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%), name:<somhandler>, shape: hexagon),
+    node((3.8, 5), [`ViewHandler`], fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%), name:<viewhandler>, shape: hexagon),
+    node((3.8, 6), [Side Effects], corner-radius: 5pt, fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<sideeff>),
+    node((3.8, 4), [`Renderable`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<render>),
+    edge(<scene>, <ngd>, "->"),
+    edge(<scene>, <som>, "->"),
+    edge(<ngd>, <somhandler>, "->"),
+    edge(<som>, <somhandler>, "->"),
+    edge(<render>, <viewhandler>, "->"),
+    edge(<viewhandler>, <sideeff>, "->"),
+    edge(<somhandler>, <sideeff>, "->"),
+    edge(<scene>, <render>, "->"),
+    node(enclose: ((0,-2),(3.5, 2.5)), align(left + top, [User Space]), stroke: (paint: blue, dash: "dashed")),
+    edge(<somhandler> ,(0.4,6), <gd>, "->"),
+    node(enclose: ((0, 3),(4.8, 6.5)), align(left + top, [Core Space]), stroke: (paint: red, dash: "dashed")),
+  )
+]
 
 Arrows in this figure mean that one object is sending messages to another object. The #text(red)[red arrows] means that the messages are sent _positively_; the #text(orange)[orange arrows] means that the messages are triggered _passively_. The small orange circles are the components in layers.
 
