@@ -4,9 +4,9 @@
 
 There are several Elm packages like #link("https://package.elm-lang.org/packages/evancz/elm-playground/latest/")[elm-playground], which offer simple APIs to create a game. However, these packages have many limitations and are not suitable for creating complex games.
 
-Messenger is a progressive (2D) game engine for Elm based on `elm-canvas`. It provides an architecture, a set of APIs, and many library functions to enable rapid game development. _Progressive_ means that functionalities are optional and can be used as needed. Additionally, Messenger is message-based and abstracts the concept of objects using the _co-inductive type_ technique.
+Messenger is a 2D game engine for Elm based on `elm-canvas`. It provides an architecture, a set of APIs, and many library functions to enable rapid game development. Additionally, Messenger is message-based and abstracts the concept of objects using the _co-inductive type_ technique.
 
-Messenger offers many features:
+Messenger has many cool features:
 
 - *Coordinate System Support*
 
@@ -46,7 +46,7 @@ There are several modules (subprojects) within the Messenger project. All the de
 - #link("https://github.com/linsyking/messenger-examples")[Messenger examples]. Some example projects
 - #link("https://github.com/linsyking/messenger-templates")[Messenger templates]. Templates to use Messenger library. Used in the Messenger CLI
 
-*Note.* This manual is compatible with core 11.0.0, templates 0.3.5 and CLI 0.3.5 (make sure your CLI and templates have the same version).
+*Note.* This manual is compatible with core `11.0.0 <= v < 12.0.0`, templates 0.3.5 and CLI 0.3.5 (make sure your CLI and templates have the same version).
 
 == Messenger Model
 

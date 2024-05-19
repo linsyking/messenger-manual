@@ -98,8 +98,8 @@ type alias Data =
 init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
     Data
-        [ Rect.component env <| RectangleInit <| RectMsg.Init 150 150 200 200 Color.blue
-        , Rect.component env <| RectangleInit <| RectMsg.Init 200 200 200 200 Color.red
+        [ Rect.component ( RectangleInit <| RectMsg.Init 150 150 200 200 Color.blue ) env
+        , Rect.component ( RectangleInit <| RectMsg.Init 200 200 200 200 Color.red ) env
         ]
 ...
 view : LayerView SceneCommonData UserData Data
@@ -187,7 +187,7 @@ matcher data basedata tar =
   , List.filterMap
       (\n ->
           if n /= data.id then
-              Just <| Other n <| RectangleMsg green
+              Just <| Other ( n, RectangleMsg green )
 
           else
               Nothing
@@ -310,9 +310,9 @@ Currently, portable components are experimental, so users need to handle portabl
 
 === Example: Buttons
 
-Find the detailed example #link("https://github.com/linsyking/messenger-examples/tree/main/portable-components")[here].
+First, define a portable component in `src/PortableComponents/Button/Model.elm`, where the "button" has its own special `Data`, `Target`, and `Msg`. Now we want to make it into a user component held by a layer.
 
-Here, the portable component is defined in `src/PortableComponents/Button/Model.elm`, where the "button" has its own special `Data`, `Target`, and `Msg`. Now we want to make it into a user component held by a layer.
+*Note.* There is no cli command for users to directly generate a portable component.
 #grid(columns: (1fr, 1fr),
   [
     #set align(center)
@@ -394,4 +394,46 @@ Now the portable component `button` can be used as normal user components in the
 
 To validate that the portable component type has been successfully translate into user components, users can add a sample component.
 
-// Is this finished ???
+Use the component in User Component part and simply modify it. To make things easy, remove the id and the update logic. 
+
+When click the button, the rectangle is expected to turn yellow. But the logic of changing color doesn't need to be added in the `update` function of button:
+```elm
+MouseDown 0 pos ->
+    if judgeMouseRect pos data.pos data.size then
+        ( data, [ Other ( OtherC, Pressed ) ], ( env, True ) )
+    
+    else
+        ( data, [], ( env, False ) )
+```
+Instead, it should be added in the codec in `Components/Button.elm`, where the translator is stored. More specifically, to make the the buttons more general, users can determine what message they should pass when initialize every single one of them. 
+```elm
+component : Int -> ComponentTarget -> ComponentMsg -> PortableComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData SceneMsg
+component zindex gtar gmsg =
+    let
+        ...
+        msgCodec : PortableMsgCodec Button.Msg ComponentMsg
+        msgCodec =
+            ...
+            decode = 
+                ...
+                Button.Pressed ->
+                    gmsg
+            ...
+    in
+    genPortableComponent Button.componentcon targetCodec msgCodec () zindex
+```
+Then initialize two buttons and a rectangle in one list in layer:
+```elm
+init : LayerInit SceneCommonData UserData LayerMsg Data
+init env initMsg =
+    Data
+        [ Button.component 1 "Rect" (RectMsg yellow) (ButtonInit <| ButtonConfig.Data ( 0, 0 ) ( 100, 100 ) "Button 1") env
+        , Button.component 1 "Rect" (RectMsg orange) (ButtonInit <| ButtonConfig.Data ( 300, 300 ) ( 100, 100 ) "Button 2") env
+        , Rect.component ( RectInit <| RectMsg.Init 200 500 200 200 red ) env
+        ]
+```
+Now the the requirement is simply implement since every specific button message `Other OtherC Pressed` will be decode as `Other ( "Rect", RectMsg yellow )`.
+
+Find the detailed example #link("https://github.com/linsyking/messenger-examples/tree/main/portable-components")[here].
+
+Users can even make different translators for the same portable component type to implement different usages. And the same type of portable component can be used in different scenes by setting translators for every scene. See more usages about portable components in @componentgroup.

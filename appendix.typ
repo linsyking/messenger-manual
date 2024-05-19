@@ -93,6 +93,8 @@ Users may want to change the settings in `MainConfig.elm` to match their demand.
 
 == Messenger CLI Commands <cli>
 
+You can also use `messenger <command> --help` to view help.
+
 === Scene
 
 Create a scene.
@@ -159,6 +161,10 @@ Arguments:
 - `--init`, `-i`. Create a `Init.elm` file
 
 === Update
+
+Update `Scenes/AllScenes.elm` based on `messenger.json`.
+
+Usage: `messenger update`
 
 == Roadmap
 

@@ -22,7 +22,7 @@
 #align(horizon + left)[
   #text(size: 32pt, "Messenger Manual")\
   #v(1em)
-   #text(size: 16pt, "A Progressive Game Engine for Elm")
+   #text(size: 16pt, "A Game Engine for Elm")
   #v(10em)
   FOCS Messenger Team
 ]
@@ -36,7 +36,7 @@
 
 #set page(
   paper: "us-letter",
-  header: text()[*Messenger: A Progressive Game Engine for Elm*],
+  header: text()[*Messenger: A Game Engine for Elm*],
   number-align: center,
   numbering: "1"
 )
