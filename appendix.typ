@@ -186,6 +186,14 @@ Users might want to store component in user data.
 
 Users might want to have `List (Renderable, Int)` instead of `(Renderable, Int)` (In fact, this is what Reweave does). A use-case is that a component may have some part behind the player and some other part in front of the player.
 
+=== On-demand Asset Loading
+
+Users can load or pre-load assets when they want to, not at the beginning of the game.
+
+=== Lazy Coordination Transformation
+
+Transform coordinates in the core instead of the user code. In other words, users can use rendering functions without global data. This needs to modify `elm-canvas`.
+
 == Acknowledgement
 
 We express great gratitude to the FOCS Messenger team. Members are #link("linsy_king@sjtu.edu.cn")[linsyking], #link("junglcuxo@sjtu.edu.cn")[YUcxovo], #link("www125@sjtu.edu.cn")[matmleave]. We also express sincere gratitude to all students using Messenger.

@@ -1,7 +1,7 @@
 #pagebreak()
 = Rendering
 
-As mentioned in the last section, Messenger uses _virtual coordinates_ in the game. To transform from virtual coordinates to real coordinates on screen, users can use functions `posToReal`, `lengthToReal` from `Messenger.Coordinate.Coordinates`.
+As mentioned in the last section, Messenger uses _virtual coordinates_ to render. To transform from virtual coordinates to real coordinates on screen, users can use functions `posToReal`, `lengthToReal` from `Messenger.Coordinate.Coordinates`.
 
 However, usually those low-level functions aren't necessary to draw figures. Instead, there are predefined functions in `Messenger.Render.Sprite`, `Messenger.Render.Text`, `Messenger.Render.Shape` modules.
 
@@ -32,6 +32,30 @@ Now `make` and see the result!
 *Hint.* The game will not start until all textures are loaded. If users found that they cannot load any images, please check whether a static file hosting tool is used to host the game.
 
 *Hint.* In case of drawing pixel art, users may want to use `imageSmoothing False` setting to avoid blurring.
+
+*Hint.* Messenger also provides `renderSpriteWithRev` and `renderSpriteCropped` to do advanced sprite rendering. See the documentation in Elm to learn more.
+
+=== Image Auto-scale
+
+Messenger knows the size of the images users load (except for some non-hinted SVG images). Therefore it also is able to infer the width given the height.
+
+You may omit height or width to let Messenger automatically infer the other one when using `renderSprite`, like this:
+
+```elm
+view env data =
+  renderSprite env.globalData [] ( 0, 0 ) ( 1920, 0 ) "bg"
+```
+
+If the "bg" image is 16:9, then Messenger will calculate its height to be 1080.
+
+Moreover, you may omit both width and height:
+
+```elm
+view env data =
+  renderSprite env.globalData [] ( 0, 0 ) ( 0, 0 ) "bg"
+```
+
+In that case, Messenger will use the size of the image as the virtual size directly.
 
 == Text
 
@@ -104,6 +128,6 @@ renderSprite env.globalData [ imageSmoothing False ] ( 0, 0 ) ( 100, 0 ) ("sprit
 
 Messenger will load all the sprites in `allSpriteSheets` to memory when the game starts, so users can use `renderSprite` to render it just like a normal sprite.
 
-*Note.* Users will still need to put `spritesheet1` in your `allTexture` list as normal since it is only an ID, not a path. However, that texture will be loaded to sprite sheet so `renderSprite` on `spritesheet1` will not working.
+*Note.* Users will still need to put `spritesheet1` in `allTexture` as normal since it is only an ID, not a path. However, that texture will be loaded to sprite sheet so `renderSprite` on `spritesheet1` will not work.
 
 Full example is in #link("https://github.com/linsyking/messenger-examples/tree/main/spritesheet")[spritesheet].

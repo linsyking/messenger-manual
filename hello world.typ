@@ -200,8 +200,8 @@ Now similarly, add these two layers to scene:
 ```elm
 ...
     , layers =
-        [ A.layer envcd NullLayerMsg
-        , B.layer envcd NullLayerMsg
+        [ A.layer NullLayerMsg envcd
+        , B.layer NullLayerMsg envcd
         ]
 ```
 
@@ -268,9 +268,9 @@ import Scenes.Recursion.B.Model as B
 import Scenes.Recursion.C.Model as C
 ...
     , layers =
-        [ A.layer envcd NullLayerMsg
-        , B.layer envcd NullLayerMsg
-        , C.layer envcd NullLayerMsg
+        [ A.layer NullLayerMsg envcd
+        , B.layer NullLayerMsg envcd
+        , C.layer NullLayerMsg envcd
         ]
 ```
 

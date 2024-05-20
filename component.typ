@@ -267,7 +267,7 @@ The characteristics of portable components include:
 - They do not have the base data
 - They cannot get the common data
 - Users need to set the `Msg` and `Target` type for every portable component
-- Users who use portable components need to provide a codec to translate the messages and targets
+- Users who use portable components need to provide a codec to transform the messages and targets
 
 *Warning*. Portable components are only useful when you are designing a component applicable to many different scenes (e.g. UI element). However, if your component is tightly connected to the scene (in most cases), please use scene prototype discussed in @sceneproto. It allows you to reuse scene and components. Think carefully whether you really need portable components before using it.
 
@@ -392,7 +392,7 @@ Now the portable component `button` can be used as normal user components in the
 
 === Use with User Components
 
-To validate that the portable component type has been successfully translate into user components, users can add a sample component.
+To validate that the portable component type has been successfully transformed into user components, users can add a sample component.
 
 Use the component in User Component part and simply modify it. To make things easy, remove the id and the update logic. 
 

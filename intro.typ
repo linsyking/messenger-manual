@@ -35,7 +35,7 @@ Messenger has many cool features:
 
 == Messenger Modules
 
-There are several modules (subprojects) within the Messenger project. All the development of Messenger is happening on GitHub.
+There are several modules (subprojects) within the Messenger project. All the development of Messenger is on GitHub.
 
 - #link("https://github.com/linsyking/Messenger")[Messenger CLI]. A handy CLI to create the game rapidly
 - #link("https://github.com/linsyking/messenger-core")[Messenger-core]. Core Messenger library
@@ -77,11 +77,13 @@ The concept of the Messenger model is summarized in the following diagram:
     edge(<l1>, <l2>, "<->", stroke: 1pt + teal.darken(20%)),
     
     node(enclose: ((0.5,-1), (3,2)), corner-radius: 5pt, stroke: 1pt + blue, align(left + top, [Scene]), name:<scene>),
-    node((1, 5), [`WorldEvent`], corner-radius: 5pt,fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<world>),
+    node((1.2, 4.8), [`WorldEvent`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<world>),
+    node((1.2, 5.6), [Elm Subscriptions], corner-radius: 5pt,fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<sub>),
     node((0.4, 4), [`GlobalData`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<gd>),
     node((1.2, 4), [`UserEvent`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<user>),
     edge(<gd>, <scene>, "->"),
     edge(<user>, <scene>, "->"),
+    edge(<sub>, <world>, "->"),
     edge(<world>, <user>, "->", label: "Filter"),
     node((2, 4), [`GlobalData`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<ngd>),
     node((2.8, 4), [`SceneOutputMsg`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<som>),
@@ -89,6 +91,9 @@ The concept of the Messenger model is summarized in the following diagram:
     node((3.8, 5), [`ViewHandler`], fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%), name:<viewhandler>, shape: hexagon),
     node((3.8, 6), [Side Effects], corner-radius: 5pt, fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<sideeff>),
     node((3.8, 4), [`Renderable`], corner-radius: 5pt, fill: green.lighten(60%), stroke: 1pt + green.darken(20%), name:<render>),
+    node((2, 5.5), [Core Data], corner-radius: 5pt, fill: orange.lighten(60%), stroke: 1pt + orange.darken(20%), name:<cdata>),
+    edge(<world>, (2, 4.8), <cdata>, "-->"),
+    edge(<somhandler>, (2.6, 5.5), <cdata>, "-->"),
     edge(<scene>, <ngd>, "->"),
     edge(<scene>, <som>, "->"),
     edge(<ngd>, <somhandler>, "->"),
@@ -103,7 +108,7 @@ The concept of the Messenger model is summarized in the following diagram:
   )
 ]
 
-Messenger provides two parts that users can use. The template _user code_ and the _core library code_. Users write code based on the template code and may use any functions in core library. In user code, users need to design the _logic_ of scenes, layers and possibly components. _Logic_ includes the data structure it uses, the `update` function that updates the data when events occur, `view` function that renders the object. Messenger core will first translate world event into user event, then send that event to the scene with the current `globalData`. `globalData` is the data structure Messenger keeps between scenes and users may read and write. The user code will updates its own data and generate some `SceneOutputMessage`. Messenger core (core in brief) will handle all that messages and updates `globalData`.
+Messenger provides two parts that users can use. The template _user code_ and the _core library code_. Users write code based on the template code and may use any functions in core library. In user code, users need to design the _logic_ of scenes, layers and components. _Logic_ includes the data structure it uses, the `update` function that updates the data when events occur, `view` function that renders the object. Messenger core will first transform world event into user event, then send that event to the scene with the current `globalData`. `globalData` is the data structure Messenger keeps between scenes and users may read and write. The user code will updates its own data and generate some `SceneOutputMessage`. Messenger core (core in brief) will handle all that messages and updates `globalData`.
 
 Messenger manages a game through three levels of objects (Users can create more levels if they want), listed from parents to children:
 
@@ -113,7 +118,7 @@ Messenger manages a game through three levels of objects (Users can create more 
 
 Parent levels can hold children levels, while children levels can send messages to parent levels. Messages can also be sent inside a level between different objects.
 
-=== General Model
+=== General Model #footnote[You may skip this part for basic understanding and use of Messenger.]
 
 Layers and components are defined as an alias of `AbstractGeneralModel`.
 It is generated by a `ConcreteGeneralModel`, where users implement their logic.

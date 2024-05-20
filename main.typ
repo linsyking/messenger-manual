@@ -49,9 +49,9 @@
 
 #include "event.typ"
 
-#include "transition.typ"
-
 #include "component.typ"
+
+#include "transition.typ"
 
 #include "sceneproto.typ"
 
