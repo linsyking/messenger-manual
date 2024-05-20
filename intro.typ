@@ -11,19 +11,15 @@ Messenger has many cool features:
 
 - *Coordinate System Support*
 
-  The view-port and coordinate transformation functions are already implemented. The system is also adaptive to window size changes.
+  The view-port and coordinate transformation functions are already implemented. Messenger is also adaptive to window size changes.
 
-- *LocalStorage Support*
+- *Separate User Code and Core Code*
 
-  Save and load the game state easily by calling the provided API.
-  
-- *Audio Manager*
+  User code and core code are separated. Any side effects are controlled by the Messenger core. This helps debugging and decrease security concerns.
 
-  Play audio using the audio APIs, with automatic management of audio files.
-  
-- *Sprite Manager*
-  
-  All resources used in the game are pre-loaded, ensuring smooth gameplay without failing assets or slow loading times. Importing and loading sprites is straightforward, and sprite sheets are supported for better sprite management and frame-to-frame animations.
+- *Basic Game Engine API Support*
+
+  Messenger provides handy common game engine APIs. Including data storage, audio manager, sprite(sheet) manager, and so on. More features are still under development.
   
 - *Modular Development*
   

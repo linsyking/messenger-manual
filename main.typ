@@ -35,7 +35,7 @@
 #pagebreak()
 
 #set page(
-  // paper: "us-letter",
+  paper: "us-letter",
   header: text()[*Messenger: A Game Engine for Elm*],
   number-align: center,
   numbering: "1"
