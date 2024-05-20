@@ -57,17 +57,29 @@ The concept of the Messenger model is summarized in the following diagram:
   #diagram(
     node-stroke: 1pt,
     edge-stroke: 1pt,
-    for x in (1, 2) {
-    node((x, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
-    node((x+0.5, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
-    node((x+0.5, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
-    node((x, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%))
-    node([Layer], enclose: ((x, 0), (x+0.5, 1)), corner-radius: 5pt, fill: teal.lighten(80%), stroke: 1pt + teal.darken(20%))
-    edge((x+0.5, 0), (x+0.5, 1), "->", stroke: 1pt + yellow.darken(20%))
-    edge((x, 0), (x+0.5, 0), "->", stroke: 1pt + yellow.darken(20%))
-    edge((x, 1), (x, 0), "->", stroke: 1pt + yellow.darken(20%))
-    edge((x, 1), (x+0.5, 1), "->", stroke: 1pt + yellow.darken(20%))
-    },
+    
+    node((1, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((1+0.5, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((1+0.5, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((1, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node([Layer], enclose: ((1, 0), (1+0.5, 1)), corner-radius: 5pt, fill: teal.lighten(80%), stroke: 1pt + teal.darken(20%), name: <l1>),
+    edge((1+0.5, 0), (1+0.5, 1), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((1, 0), (1+0.5, 0), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((1, 1), (1, 0), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((1, 1), (1+0.5, 1), "->", stroke: 1pt + yellow.darken(20%)),
+
+    node((2, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((2+0.5, 0), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((2+0.5, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node((2, 1), width: 10pt, height: 10pt, shape: circle, fill: yellow.lighten(60%), stroke: 1pt + yellow.darken(20%)),
+    node([Layer], enclose: ((2, 0), (2+0.5, 1)), corner-radius: 5pt, fill: teal.lighten(80%), stroke: 1pt + teal.darken(20%), name: <l2>),
+    edge((2+0.5, 0), (2+0.5, 1), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((2, 0), (2+0.5, 0), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((2, 1), (2, 0), "->", stroke: 1pt + yellow.darken(20%)),
+    edge((2, 1), (2+0.5, 1), "->", stroke: 1pt + yellow.darken(20%)),
+
+    edge(<l1>, <l2>, "<->", stroke: 1pt + teal.darken(20%)),
+    
     node(enclose: ((0.5,-1), (3,2)), corner-radius: 5pt, stroke: 1pt + blue, align(left + top, [Scene]), name:<scene>),
     node((1, 5), [`WorldEvent`], corner-radius: 5pt,fill: gray.lighten(60%), stroke: 1pt + gray.darken(20%), name:<world>),
     node((0.4, 4), [`GlobalData`], corner-radius: 5pt,fill: red.lighten(60%), stroke: 1pt + red.darken(20%), name:<gd>),
@@ -89,19 +101,19 @@ The concept of the Messenger model is summarized in the following diagram:
     edge(<viewhandler>, <sideeff>, "->"),
     edge(<somhandler>, <sideeff>, "->"),
     edge(<scene>, <render>, "->"),
-    node(enclose: ((0,-2),(3.5, 2.5)), align(left + top, [User Space]), stroke: (paint: blue, dash: "dashed")),
+    node(enclose: ((0,-2),(3.5, 2.5)), align(left + top, [User Code]), stroke: (paint: blue, dash: "dashed")),
     edge(<somhandler> ,(0.4,6), <gd>, "->"),
-    node(enclose: ((0, 3),(4.8, 6.5)), align(left + top, [Core Space]), stroke: (paint: red, dash: "dashed")),
+    node(enclose: ((0, 3),(4.8, 6.5)), align(left + top, [Core Code]), stroke: (paint: red, dash: "dashed")),
   )
 ]
 
-Arrows in this figure mean that one object is sending messages to another object. The #text(red)[red arrows] means that the messages are sent _positively_; the #text(orange)[orange arrows] means that the messages are triggered _passively_. The small orange circles are the components in layers.
+Messenger provides two parts that users can use. The template _user code_ and the _core library code_. Users write code based on the template code and may use any functions in core library. In user code, users need to design the _logic_ of scenes, layers and possibly components. _Logic_ includes the data structure it uses, the `update` function that updates the data when events occur, `view` function that renders the object. Messenger core will first translate world event into user event, then send that event to the scene with the current `globalData`. `globalData` is the data structure Messenger keeps between scenes and users may read and write. The user code will updates its own data and generate some `SceneOutputMessage`. Messenger core (core in brief) will handle all that messages and updates `globalData`.
 
 Messenger manages a game through three levels of objects (Users can create more levels if they want), listed from parents to children:
 
-1. *Scenes*. Example: a single level of the game
-2. *Layers*. Example: the map of the game, and the character layer
-3. *Components*. Example: bullets a character shoots
+1. *Scenes*. The core maintains *one scene* at a time. Example: a single level of the game
+2. *Layers*. One scene may have multiple layers. Example: the map of the game, and the character layer
+3. *Components*. One layer may have multiple components. The small yellow circles in layers in the diagram are _components_. Example: bullets a character shoots
 
 Parent levels can hold children levels, while children levels can send messages to parent levels. Messages can also be sent inside a level between different objects.
 
@@ -129,6 +141,8 @@ type alias ConcreteGeneralModel data env event tar msg ren bdata sommsg =
     , matcher : data -> bdata -> tar -> Bool
     }
 ```
+
+*Note.* Scenes are similar to layers and components, but have some differences as well. So the core does not define scene by `GeneralModel`.
 
 In brief, `AbstractGeneralModel` is a model that can update itself and generate the view but hiding the data to the user.
 
@@ -256,7 +270,7 @@ type MsgBase othermsg sommsg
   ]
 )
 
-`SOMMsg` is passed to Messenger from Component $->$ Layer $->$ Scene. It's possible to block `SOMMsg` from a higher level. See @sommsg to learn more about `SOMMsg`s.
+`SOMMsg` is passed to the core from Component $->$ Layer $->$ Scene. It's possible to block `SOMMsg` from a higher level. See @sommsg to learn more about `SOMMsg`s.
 
 Users may need to handle `Parent` messages from components in a layer. Messenger provides a handy function `handleComponentMsgs` which is defined in `Messenger.Layer.Layer`, to help users handle those messages. Users need to provide a `MsgBase` handler, for example:
 
@@ -274,7 +288,7 @@ handleComponentMsg env compmsg data =
             ( data, [], env )
 ```
 
-Then users can combine it with `updateComponents` to define the `update` function in layers (provided in Messenger template):
+Then users can combine it with `updateComponents` to define the `update` function in layers (provided in the Messenger template):
 
 ```elm
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
