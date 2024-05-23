@@ -17,15 +17,15 @@ type alias Transition userdata =
     { currentTransition : Int
     , outT : Int
     , inT : Int
-    , fadeout : SingleTrans userdata
-    , fadein : SingleTrans userdata
+    , outTrans : SingleTrans userdata
+    , inTrans : SingleTrans userdata
     }
 ```
 
-- `outT` is the time (in frames) of the first stage
+- `outT` is the time (in milliseconds) of the first stage
 - `inT` is the time of the second stage
-- `fadeout`: the `SingleTrans` of the first stage
-- `fadein`: the `SingleTrans` of the second stage
+- `outTrans`: the `SingleTrans` of the first stage
+- `inTrans`: the `SingleTrans` of the second stage
 
 The real transition effect is implemented in `SingleTrans`:
 
@@ -35,6 +35,12 @@ type alias SingleTrans userdata =
 ```
 
 The `Renderable` argument is the `view` of next scene. the `Float` argument is current progress of the transition. It is a value from 0 to 1. 0 means the transition starts, and 1 means the transition ends.
+
+To generate a full transition, use `genTransition`:
+
+```elm
+genTransition : ( SingleTrans userdata, Duration ) -> ( SingleTrans userdata, Duration ) -> Transition userdata
+```
 
 Now let's take `Fade` transition as an example to explain how to use transition when changing the scene.
 
@@ -57,10 +63,10 @@ Consider a common scenario when a scene A ends. User wants it to first fade out 
 Then we emit following `SOMMsg` in A's `update`:
 
 ```elm
-SOMChangeScene ( Nothing, "B", Just <| genTransition 50 30 fadeOutBlack fadeInBlack )
+SOMChangeScene Nothing "B" <| Just <| genTransition (fadeOutBlack, Duration.seconds 5) (fadeInBlack, Duration.seconds 3)
 ```
 
-50 is the fade out time and 30 is the fade in time.
+5 is the fade out time and 3 is the fade in time.
 
 == Direct Transition
 
@@ -94,7 +100,7 @@ view env data =
 Then emit this `SOMMsg`:
 
 ```elm
-SOMChangeScene ( Nothing, "B", Just <| genTransition 0 30 nullTransition (fadeInWithRenderable <| view env data) )
+SOMChangeScene Nothing "B" <| Just <| genTransition (nullTransition, Duration.seconds 0) (fadeInWithRenderable <| view env data, Duration.seconds 3)
 ```
 
 == Transition Implementing

@@ -258,6 +258,8 @@ The source code in this part can be found #link("https://github.com/linsyking/me
 
 == Portable Components
 
+*Warning. This feature is highly experimental.* To use portable components, you need to add `messenger-extra` to your dependencies.
+
 In brief, portable components are sets of interfaces that can be transformed automatically into user components. Portable components aim to provide more flexibilities on components.
 
 The characteristics of portable components include:
@@ -312,7 +314,8 @@ Currently, portable components are experimental, so users need to handle portabl
 
 First, define a portable component in `src/PortableComponents/Button/Model.elm`, where the "button" has its own special `Data`, `Target`, and `Msg`. Now we want to make it into a user component held by a layer.
 
-*Note.* There is no cli command for users to directly generate a portable component.
+*Note.* There is no CLI command for users to directly generate a portable component.
+
 #grid(columns: (1fr, 1fr),
   [
     #set align(center)
@@ -333,6 +336,7 @@ type Target
 
 
 On this purpose, we create a function to transform "button" to a user component in `Scenes/Home/Components/Button.elm` with basics defined in `Scenes/Home/Components/ComponentBase.elm`. The `ComponentMsg` and `ComponentTarget` are defined as below:
+
 #grid(columns: (1fr, 1fr),
   [
     #set align(center)

@@ -12,10 +12,11 @@ To render a sprite (image asset), users need to import it to the project because
 To import an asset, add an entry to `Lib/Resources.elm`:
 
 ```elm
-allTexture : List ( String, String )
+allTexture : Dict String String
 allTexture =
-    [ ( "bg", "assets/bg.png" )
-    ]
+    Dict.fromList
+        [ ( "bg", "assets/bg.png" )
+        ]
 ```
 
 Here "bg" is the asset ID. It should be unique for every images. Users will need to use those IDs to access sprites later. `assets/bg.png` is the image path.

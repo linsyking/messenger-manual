@@ -337,7 +337,7 @@ User may want to have an asset loading scene just like what Reweave does.
 
 When Messenger is loading assets, `update` of the initial scene will not be called. All the user input and events are ignored. However, `view` will be called. `globalTime` and `currentTimeStamp` will be updated but `sceneStartTime` will not be updated.
 
-Moreover, users can get the number of loaded assets by using the `loadedSpriteNum` function. Then you can compare it with `spriteNum allTexture allSpriteSheets`.
+Moreover, users can get the number of loaded assets by using the `loadedResourceNum` function. Then you can compare it with `resourceNum resource`.
 
 An example:
 
@@ -346,10 +346,10 @@ startText : GlobalData UserData -> Renderable
 startText gd =
     let
         loaded =
-            loadedSpriteNum gd
+            loadedResourceNum gd
 
         total =
-            spriteNum allTexture allSpriteSheets
+            resourceNum resources
 
         progress =
             String.slice 0 4 <| String.fromFloat (toFloat loaded / toFloat total * 100)

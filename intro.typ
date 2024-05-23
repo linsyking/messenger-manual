@@ -43,7 +43,7 @@ There are several modules (subprojects) within the Messenger project. All the de
 - #link("https://github.com/linsyking/messenger-examples")[Messenger examples]. Some example projects
 - #link("https://github.com/linsyking/messenger-templates")[Messenger templates]. Templates to use Messenger library. Used in the Messenger CLI
 
-*Note.* This manual is compatible with core `11.0.0 <= v < 12.0.0`, templates 0.3.5 and CLI 0.3.5 (make sure your CLI and templates have the same version).
+*Note.* This manual is compatible with core `12.0.0 <= v < 13.0.0`, templates 0.3.6 and CLI 0.3.6 (make sure your CLI and templates have the same version).
 
 == Messenger Model
 
@@ -306,7 +306,7 @@ update env evt data =
 
 === Example <example1>
 
-*Example.* A, B are two layers (or components) which are in the same scene (or layer) C. The logic of these objects are as follows:
+A, B are two layers (or components) which are in the same scene (or layer) C. The logic of these objects are as follows:
 
 - If A receives an integer $0 <= x <= 10$, then A will send $3x$ and $10-3x$ to B, and send $x$ to C.
 - If B receives an integer $x$, then B will send $x-1$ to A.

@@ -13,10 +13,9 @@ This message is used to change to another scene. Users need to provide the scene
 
 === `SOMPlayAudio`
 
-*Definition.* `SOMPlayAudio String String AudioOption`
+*Definition.* `SOMPlayAudio Int String AudioOption`
 
-This message is used to play an audio. It has three parameters: audio name, audio
-URL, and audio option. The audio name is similar to the sprite name which is used to identify the audio so that later users can stop the audio by name. The audio URL is the URL of the audio file.
+This message is used to play an audio. It has three parameters: channel ID, audio name, and audio option. The channel ID is where this audio will be played. There might be multiple audios playing on the same channel. Audio name is what users define in the keys of `allAudio`.
 
 `AudioOption` is defined in `Messenger.Audio.Base.elm`:
 
@@ -29,11 +28,44 @@ type AudioOption
 `ALoop` means the audio will be played repeatedly. `AOnce` means the audio will be
 played only once.
 
+==== Example
+
+Suppose we have two audio files `assets/bg.ogg` and `assets/se.ogg`.
+
+First we need to import them to our projects, so edit `Lib/Resources.elm`:
+
+```elm
+allAudio : Dict.Dict String String
+allAudio =
+    Dict.fromList
+        [ ( "bg", "assets/bg.ogg" )
+        , ( "se", "assets/se.ogg" )
+        ]
+```
+
+This is very similar to `allTexture`.
+
+After that, we decide to use 0 as the background music channel and 1 as the sound effect channel.
+
+Then, when we want to play the background music `bg`, emit:
+
+```elm
+SOMPlayAudio 0 "bg" ALoop
+```
+
+And when we want to play the sound effect `se`, emit:
+
+```elm
+SOMPlayAudio 1 "se" AOnce
+```
+
+*Hint.*  Users can use `newAudioChannel` to generate a unique channel ID.
+
 === `SOMStopAudio`
 
-*Definition.* `SOMStopAudio String`
+*Definition.* `SOMStopAudio Int`
 
-This message is used to stop an audio. The parameter is the name of the audio.
+This message is used to stop a channel. The parameter is the channel ID. If there are multiple audios playing on a channel, all of them will be stopped.
 
 === `SOMAlert`
 
@@ -47,7 +79,7 @@ This message is used to show an alert. The parameter is the content of the alert
 
 This message is used to show a #link("https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt")[prompt]. Users can use this to get text input from the user. The first parameter is the name of the prompt, and the second parameter is the title of the prompt.
 
-When the user clicks the OK button, the Elm runtime will send a `Prompt String String` message. The first parameter is the name of the prompt, and the second parameter is the user’s input.
+When the user clicks the OK button, user code will receive a `Prompt String String` message. The first parameter is the name of the prompt, and the second parameter is the user’s input.
 
 === `SOMSetVolume`
 
@@ -88,7 +120,7 @@ Users may want to change the settings in `MainConfig.elm` to match their demand.
 - `virtualSize`. The virtual drawing size. Users may use whatever they like but think carefully about the ratio (Support 4:3 or 16:9? screens)
 - `debug`. A debug flag. If turned on, users can press `F1` to change to a scene quickly and press `F2` to change volume during anytime in the game
 - `background`. The background users see. Default is a transparent background
-- `timeInterval`. The time between two `Tick` events in milliseconds. Users may change this to a large number to help debug
+- `timeInterval`. The time between two `Tick` events. See @tick
 - `initGlobalData` and `saveGlobalData`. See @localstorage
 
 == Messenger CLI Commands <cli>
@@ -185,6 +217,10 @@ Users might want to store component in user data.
 === Advanced Component View
 
 Users might want to have `List (Renderable, Int)` instead of `(Renderable, Int)` (In fact, this is what Reweave does). A use-case is that a component may have some part behind the player and some other part in front of the player.
+
+=== Asset Manager
+
+Design a better asset manager that helps manage all the assets, including audios, images, and other data.
 
 === On-demand Asset Loading
 

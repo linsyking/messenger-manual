@@ -150,7 +150,9 @@ Let's take a closer look at `GlobalData`.
 type alias GlobalData userdata =
     { internalData : InternalData
     , sceneStartTime : Int
-    , globalTime : Int
+    , globalStartTime : Int
+    , globalStartFrame : Int
+    , sceneStartFrame : Int
     , currentTimeStamp : Time.Posix
     , windowVisibility : Visibility
     , mousePos : ( Float, Float )
@@ -166,13 +168,18 @@ type alias GlobalData userdata =
 
 Global data won't be reset if users change the scene.
 
-- `globalTime` records the past frame number since the game started
-- `sceneStartTime` records the past frame number since this scene has started
-- `userdata` records the data that users set
+- `globalStartFrame` records the past frames number since the game started
+- `globalStartTime` records the past time since the game started, in milliseconds
+- `sceneStartFrame` records the past frames number since this scene started
+- `sceneStartTime` records the past time since this scene started, in milliseconds
+- `userdata` records the data that users set to save
 - `extraHTML` is used to render extra HTML tags. Be careful to use this
 - `windowVisibility` records whether users stay in this tab/window
-- `pressedKeys` records the keycodes that are pressed now
+- `pressedKeys` records the keycodes that are be pressed now
 - `pressedMouseButtons` records the mouse buttons that are pressed now
+- `volume` records the volume of the game
+- `currentScene` records the current scene name
+- `mousePos` records the mouse position, in virtual coordinate
 
 Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the #link("https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer")[Live Server]), but *DO NOT* directly open the HTML file in the browser because assets won’t be loaded due to CORS.
 
