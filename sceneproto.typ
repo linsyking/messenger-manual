@@ -62,7 +62,7 @@ type alias InitData cdata scenemsg =
 
 ```
 
-Note that we cannot use `SceneCommonData` or `SceneMsg`. The reason is explained in @init. Please read that diagram carefully.
+Note that we cannot use `SceneCommonData` or `SceneMsg`. The reason is cycle import explained in @init. Please read that diagram carefully.
 
 Then we add this `InitData` to the `LayerMsg` of `Game` (`SceneProtos/Game/SceneBase.elm`):
 
@@ -196,10 +196,10 @@ Then, for `update` function, we want the moving bullet to move a small step on e
 ```elm
 update env evnt data basedata =
     case evnt of
-        Tick ->
+        Tick dt ->
             let
                 newBullet =
-                    { basedata | position = ( Tuple.first basedata.position + basedata.velocity, Tuple.second basedata.position ) }
+                    { basedata | position = ( Tuple.first basedata.position + basedata.velocity * toFloat dt, Tuple.second basedata.position ) }
             in
             ( ( data, newBullet ), [], ( env, False ) )
 
@@ -315,7 +315,7 @@ initData : Env () UserData -> Maybe SceneMsg -> InitData SceneMsg
 initData env msg =
     { objects =
         [ Ship.component (ShipInitMsg <| ShipInit.InitData 0 ( 100, 500 ) 15)
-        , Enemy.component (EnemyInitMsg <| EnemyInit.InitData 1 -1 ( 1920, 1000 ) 50 10 25)
+        , Enemy.component (EnemyInitMsg <| EnemyInit.InitData 1 ( -1 / 15 ) ( 1920, 1000 ) 50 10 25)
         ]
     }
 ```

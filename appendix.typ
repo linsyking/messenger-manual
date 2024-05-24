@@ -120,7 +120,7 @@ Users may want to change the settings in `MainConfig.elm` to match their demand.
 - `virtualSize`. The virtual drawing size. Users may use whatever they like but think carefully about the ratio (Support 4:3 or 16:9? screens)
 - `debug`. A debug flag. If turned on, users can press `F1` to change to a scene quickly and press `F2` to change volume during anytime in the game
 - `background`. The background users see. Default is a transparent background
-- `timeInterval`. The time between two `Tick` events. See @tick
+- `timeInterval`. The update strategy. See @tick
 - `initGlobalData` and `saveGlobalData`. See @localstorage
 
 == Messenger CLI Commands <cli>
@@ -205,10 +205,6 @@ This sections contains some ideas we'd like to implement in future versions of M
 === Multi-pass Updater
 
 Some components may want to do some operations after all other components have finished. This is the _second-pass_ updater. We plan to extend this idea further to support _multi-pass_ updater. Components may update _any_ number of passes in one event update.
-
-=== Fixed Update
-
-Used to do accurate physical simulation.
 
 === Global Component
 

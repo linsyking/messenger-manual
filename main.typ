@@ -34,6 +34,14 @@
 
 #pagebreak()
 
+#align(horizon + center)[
+  #text(size: 32pt, "User Guide")\
+  #v(1em)
+   #text(size: 16pt, "Exploring the features of Messenger", style: "italic")
+]
+
+#pagebreak()
+
 #set page(
   paper: "us-letter",
   header: text()[*Messenger: A Game Engine for Elm*],
@@ -58,3 +66,13 @@
 #include "advanced.typ"
 
 #include "appendix.typ"
+
+#pagebreak()
+
+#align(horizon + center)[
+  #text(size: 32pt, "Developer Guide")\
+  #v(1em)
+   #text(size: 16pt, "Implementation details of Messenger", style: "italic")
+]
+
+#include "generalmodel.typ"

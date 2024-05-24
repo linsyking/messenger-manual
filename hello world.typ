@@ -9,9 +9,9 @@ To create a simple game in Messenger, the first step is to install the Messenger
 Messenger CLI is written in Python. You need to install `python>=3.7`. #link("https://pipx.pypa.io/stable/")[pipx] is a tool to manage python applications. It is recommended to use `pipx` instead of `pip` on Unix-based OS (including WSL).
 
 ```bash
-pipx install -i https://pypi.python.org/simple elm-messenger>=0.3.5
+pipx install -i https://pypi.python.org/simple elm-messenger>=0.3.6
 # Or use pip on Windows:
-pip install -i https://pypi.python.org/simple elm-messenger>=0.3.5
+pip install -i https://pypi.python.org/simple elm-messenger>=0.3.6
 ```
 
 This tool assists in quickly building a project. To create a new project, use the following commands:
@@ -181,6 +181,8 @@ Global data won't be reset if users change the scene.
 - `currentScene` records the current scene name
 - `mousePos` records the mouse position, in virtual coordinate
 
+*Note.* Since the `globalStartTime` and `sceneStartTime` are discrete, please use a range rather than a specific time point when judging the time. 
+
 Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the #link("https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer")[Live Server]), but *DO NOT* directly open the HTML file in the browser because assets won’t be loaded due to CORS.
 
 We use coordinate `(900, 500)` to render the text instead of using HTML tags. This coordinate is not the real pixels on the screen, but the *virtual coordinate* in the game.
@@ -309,7 +311,7 @@ For layer B, edit `Scenes/Recursion/B/Model.elm`:
 
 ```elm
 update env evt data =
-    if env.globalData.sceneStartTime == 10 then
+    if env.globalData.sceneStartFrame == 10 then
         ( data, [ Other "A" <| IntMsg 2 ], ( env, False ) )
 
     else

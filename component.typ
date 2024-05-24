@@ -13,7 +13,7 @@ Components are flexible. Users can organize different types of components whatev
 
 Using components allows users to simplify a complex feature and manage it step by step. Moreover, it provides a simpler and more flexible way for users to organize code. So it is necessary to use components to implement most of the logics for a complex game.
 
-== Basic Model
+== Basic Model <component>
 
 Basically the component type is inherited from the general model as follows:
 
