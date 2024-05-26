@@ -156,13 +156,13 @@ Generally, the `update` function in a parent object with components can be divid
 + Update basic data (remove dead components, etc.)
   ```elm
   type alias BasicUpdater data cdata userdata tar msg scenemsg =
-      Env cdata userdata -> UserEvent -> data -> ( data, List (Msg tar msg (SceneOutputMsg scenemsg userdata)), ( Env cdata userdata, Bool ) )
+      Env cdata userdata -> UserEvent -> data -> ( data, List (MMsg tar msg scenemsg userdata), ( Env cdata userdata, Bool ) )
   ```
 + Update component groups by using `updateComponents`
 + Determine the messages that need to be sent to components and distribute them (collisions, etc.)
   ```elm
   type alias Distributor data cdata userdata tar msg scenemsg cmsgpacker =
-      Env cdata userdata -> UserEvent -> data -> ( data, ( List (Msg tar msg (SceneOutputMsg scenemsg userdata)), cmsgpacker ), Env cdata userdata )
+      Env cdata userdata -> UserEvent -> data -> ( data, ( List (Msg tar msg scenemsg userdata), cmsgpacker ), Env cdata userdata )
   ```
   where `cmsgpacker` type is a helper type for users to send different type of messages to different component groups. Generally, it should be a record with a similar structure to `data`:
   ```elm

@@ -102,7 +102,7 @@ Second, add the layer to `init` function:
 init env msg =
     ...
     , layers =
-        [ MainLayer.layer envcd NullLayerMsg
+        [ MainLayer.layer NullLayerMsg envcd
         ]
 ```
 

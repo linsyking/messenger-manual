@@ -43,7 +43,7 @@ There are several modules (subprojects) within the Messenger project. All the de
 - #link("https://github.com/linsyking/messenger-examples")[Messenger examples]. Some example projects
 - #link("https://github.com/linsyking/messenger-templates")[Messenger templates]. Templates to use Messenger library. Used in the Messenger CLI
 
-*Note.* This manual is compatible with core `12.0.0 <= v < 13.0.0`, templates 0.3.6 and CLI 0.3.6 (make sure your CLI and templates have the same version).
+*Note.* This manual is compatible with core `12.0.0 <= v < 13.0.0`, templates 0.3.7 and CLI 0.3.7.
 
 == Messenger Model
 

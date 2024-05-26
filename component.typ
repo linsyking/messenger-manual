@@ -45,11 +45,11 @@ To understand the usage of the components better, let's make an example.
 # Create a new scene named Game
 messenger scene Game
 
-# Create a new layer with components in Game Scene
-messenger layer -c Game A
-
 # Create a new type of component in Game scene
 messenger component Game Comp
+
+# Create a new layer with components in Game Scene
+messenger layer -c Game A
 ```
 
 Addition to set the data type of `Comp`, set the data type for initialize a `Comp` is necessary. Since we would like to determine the position, size and color when initializing, add codes in `Scenes/Home/Components/ComponentBase.elm`:
