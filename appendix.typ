@@ -8,8 +8,10 @@
 === `SOMChangeScene`
 
 *Definition.* `SOMChangeScene ( Maybe scenemsg ) String ( Maybe (Transition userdata) )`
+*Definition.* `SOMChangeScene ( Maybe scenemsg ) String`
 
 This message is used to change to another scene. Users need to provide the scene init data, the scene name, and the transition.
+This message is used to change to another scene. Users need to provide the scene init data, the scene name.
 
 === `SOMPlayAudio`
 
@@ -95,22 +97,6 @@ Save global data (including user data) to local storage.
 
 See @localstorage.
 
-=== `SOMSetContext`
-
-*Definition.* `SOMSetContext (SceneContext userdata scenemsg)`
-
-Restore a scene context.
-
-See @ctx.
-
-=== `SOMGetContext`
-
-*Definition.* `SOMGetContext (SceneContext userdata scenemsg -> userdata -> userdata)`
-
-Get the current scene context and save it to user data.
-
-See @ctx.
-
 == Game Configurations
 
 Users may want to change the settings in `MainConfig.elm` to match their demand. This section explains what each options in that configuration file means.
@@ -189,14 +175,8 @@ Arguments:
 - `scene`. The name of the scene
 - `name`. The name of the component
 - `--cdir`, `-cd`. Directory to store components
-- `--proto`, `-p`. Create layer in sceneproto
+- `--proto`, `-p`. Create component in sceneproto
 - `--init`, `-i`. Create a `Init.elm` file
-
-=== Update
-
-Update `Scenes/AllScenes.elm` based on `messenger.json`.
-
-Usage: `messenger update`
 
 == Roadmap
 
@@ -206,13 +186,13 @@ This sections contains some ideas we'd like to implement in future versions of M
 
 Some components may want to do some operations after all other components have finished. This is the _second-pass_ updater. We plan to extend this idea further to support _multi-pass_ updater. Components may update _any_ number of passes in one event update.
 
-=== Global Component
-
-Users might want to store component in user data.
-
 === Advanced Component View
 
 Users might want to have `List (Renderable, Int)` instead of `(Renderable, Int)` (In fact, this is what Reweave does). A use-case is that a component may have some part behind the player and some other part in front of the player.
+
+=== Unified custom element
+
+Unify `elm-canvas` and audio system.
 
 === Asset Manager
 
@@ -221,10 +201,6 @@ Design a better asset manager that helps manage all the assets, including audios
 === On-demand Asset Loading
 
 Users can load or pre-load assets when they want to, not at the beginning of the game.
-
-=== Lazy Coordination Transformation
-
-Transform coordinates in the core instead of the user code. In other words, users can use rendering functions without global data. This needs to modify `elm-canvas`.
 
 == Acknowledgement
 

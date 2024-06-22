@@ -9,9 +9,9 @@ To create a simple game in Messenger, the first step is to install the Messenger
 Messenger CLI is written in Python. You need to install `python>=3.7`. #link("https://pipx.pypa.io/stable/")[pipx] is a tool to manage python applications. It is recommended to use `pipx` instead of `pip` on Unix-based OS (including WSL).
 
 ```bash
-pipx install -i https://pypi.python.org/simple elm-messenger>=0.3.6
+pipx install -i https://pypi.python.org/simple elm-messenger>=0.3.7
 # Or use pip on Windows:
-pip install -i https://pypi.python.org/simple elm-messenger>=0.3.6
+pip install -i https://pypi.python.org/simple elm-messenger>=0.3.7
 ```
 
 This tool assists in quickly building a project. To create a new project, use the following commands:
@@ -298,7 +298,7 @@ updaterec env msg data =
     case msg of
         IntMsg x ->
             if 0 <= x && x < 10 then
-                ( data, [ Other "B" <| IntMsg (3 * x), Other "B" <| IntMsg (10 - 3 * x), Other "C" <| IntMsg x ], env )
+                ( data, [ Other ( "B", IntMsg (3 * x) ), Other ( "B", IntMsg (10 - 3 * x) ), Other ( "C", IntMsg x ) ], env )
 
             else
                 ( data, [], env )
@@ -312,7 +312,7 @@ For layer B, edit `Scenes/Recursion/B/Model.elm`:
 ```elm
 update env evt data =
     if env.globalData.sceneStartFrame == 10 then
-        ( data, [ Other "A" <| IntMsg 2 ], ( env, False ) )
+        ( data, [ Other ( "A", IntMsg 2 ) ], ( env, False ) )
 
     else
         ( data, [], ( env, False ) )
@@ -324,7 +324,7 @@ and
 updaterec env msg data =
     case msg of
         IntMsg x ->
-            ( data, [ Other "A" <| IntMsg (x - 1) ], env )
+            ( data, [ Other ( "A", IntMsg (x - 1) ) ], env )
 
         _ ->
             ( data, [], env )
